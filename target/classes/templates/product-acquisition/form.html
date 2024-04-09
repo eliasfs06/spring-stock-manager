@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Acquistion Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar.html}"></div>
+<div class="container mt-3">
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <h4>Product Acquistion Form</h4>
+    <div class="row">
+        <input hidden th:field="*{productAcquisition.id}">
+        <div class="form-group col-5">
+            <label for="item-product">Product</label>
+            <select class="form-control" th:name="${productId}" id="item-product" name="product">
+                <option th:each="prod : ${products}" th:text="${prod.name + ' - ' + prod.brand}" th:value="${prod.id}"></option>
+            </select>
+        </div>
+        <div class="form-group col-5">
+            <label for="item-quantity">Quantity</label>
+            <input th:name="${quantity}" type="number" class="form-control" id="item-quantity" name="quantity">
+        </div>
+        <div class="col-2 d-flex mb-3" style="align-items: end" >
+            <button class="btn btn-success" onclick="addProduct()">+</button>
+        </div>
+    </div>
+
+    <div id="acquisition-itens" th:replace="~{product-acquisition/product-acquisition-itens :: acquisition-itens}">
+    </div>
+
+
+    <script th:src="@{/vendor/js/jquery-3.6.0.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/sidebar.js}"></script>
+    <script th:src="@{/js/product-acquisition.js}"></script>
+</div>
+</body>
+</html>
