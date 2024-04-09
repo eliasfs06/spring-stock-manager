@@ -39,7 +39,7 @@
             </td>
             <td th:text="${request.quantity}"></td>
             <td th:text="${request.description}"></td>
-            <td th:text="${request.requestStatus}"></td>
+            <td th:text="${request.requestStatus.description}"></td>
             <td class="row">
                 <div class="col-3">
                     <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:if="${request.requestStatus.name() == 'WAITING'}"
