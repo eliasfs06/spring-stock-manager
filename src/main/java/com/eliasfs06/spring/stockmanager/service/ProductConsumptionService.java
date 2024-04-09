@@ -19,7 +19,7 @@ public class ProductConsumptionService extends GenericService<ProductConsumption
         productService.save(product);
     }
 
-    private void verifyTotalToConsume(Product product, Integer quantity) throws BusinessException {
+    public void verifyTotalToConsume(Product product, Integer quantity) throws BusinessException {
         if(product.getStockQuantity() == null || product.getStockQuantity() < quantity){
             throw new BusinessException(MessageCode.CANT_CONSUME_PRODUCT);
         }

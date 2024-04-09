@@ -21,8 +21,25 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" th:href="@{/product/list}">All products</a>
                     <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:href="@{/product/form}">New product</a>
-                    <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:href="@{/product-acquisition/list}">All product acquistions</a>
-                    <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:href="@{/product-acquisition/form}">Register product acquistion</a>
+                </div>
+            </li>
+
+            <li sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    Product acquisition
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/product-acquisition/list}">All product acquistions</a>
+                    <a class="dropdown-item" th:href="@{/product-acquisition/form}">Register product acquistion</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    Product consumption request
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/product-consumption-request/list}">All requests</a>
                 </div>
             </li>
 

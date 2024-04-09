@@ -19,6 +19,7 @@
     </div>
 
     <div th:replace="~{fragments/modal-product-consume :: modal-product-consume}"></div>
+    <div th:replace="~{fragments/modal-product-consume-request :: modal-product-consume-request}"></div>
 
     <h4> Products </h4>
     <table class="table">
@@ -43,9 +44,10 @@
             <td th:text="${prod.stockQuantity == null ? '0' : prod.stockQuantity}"></td>
             <td class="row">
                 <div class="col-3">
-                    <a th:href="@{'/product/edit/' + ${prod.id}}">Edit</a>
-                    <a th:href="@{'/product/delete/' + ${prod.id}}">Delete</a>
-                    <a href="#" data-toggle="modal" data-target="#productConsumeModal" th:data-product-id="${prod.id}">Consume</a>
+                    <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:href="@{'/product/edit/' + ${prod.id}}">Edit</a>
+                    <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:href="@{'/product/delete/' + ${prod.id}}">Delete</a>
+                    <a th:if="${prod.freeToConsume}" href="#" data-toggle="modal" data-target="#productConsumeModal" th:data-product-id="${prod.id}">Consume</a>
+                    <a th:unless="${prod.freeToConsume}" href="#" data-toggle="modal" data-target="#productConsumeRequestModal" th:data-product-id="${prod.id}">Request to consume</a>
                 </div>
             </td>
         </tr>

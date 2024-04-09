@@ -1,9 +1,11 @@
 package com.eliasfs06.spring.stockmanager.controller;
 
 import com.eliasfs06.spring.stockmanager.model.Product;
+import com.eliasfs06.spring.stockmanager.model.ProductConsumptionRequest;
 import com.eliasfs06.spring.stockmanager.model.enums.Brand;
 import com.eliasfs06.spring.stockmanager.model.enums.ProductType;
 import com.eliasfs06.spring.stockmanager.model.exceptionsHandler.BusinessException;
+import com.eliasfs06.spring.stockmanager.service.ProductConsumptionRequestService;
 import com.eliasfs06.spring.stockmanager.service.ProductConsumptionService;
 import com.eliasfs06.spring.stockmanager.service.ProductService;
 import com.eliasfs06.spring.stockmanager.service.helper.MessageCode;
@@ -33,6 +35,9 @@ public class ProductController extends GenericController<Product> {
 
     @Autowired
     private ProductConsumptionService productConsumptionService;
+
+    @Autowired
+    private ProductConsumptionRequestService productConsumptionRequestServiceService;
 
     @Autowired
     private MessageHelper messageHelper;
@@ -103,12 +108,23 @@ public class ProductController extends GenericController<Product> {
     }
 
     @PostMapping("/consume/{id}")
-    public ResponseEntity<String> consume(Model model, @PathVariable Long id, @RequestParam Integer quantity) {
+    public ResponseEntity<String> consume(@PathVariable Long id, @RequestParam Integer quantity) {
         try {
             productConsumptionService.cosumeProduct(productService.get(id), quantity);
             return ResponseEntity.ok().body(MessageCode.DEFAULT_SUCCESS_MSG);
         } catch (BusinessException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageHelper.getMessage(MessageCode.CANT_DELETE_ACQUISITION));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageHelper.getMessage(MessageCode.CANT_CONSUME_PRODUCT));
+        }
+    }
+
+    @PostMapping("/request-to-consume/{id}")
+    public ResponseEntity<String> requestToConsume(@PathVariable Long id,
+                                                   @RequestParam Integer quantity, String description) {
+        try {
+            productConsumptionRequestServiceService.requestToCosumeProduct(productService.get(id), quantity, description);
+            return ResponseEntity.ok().body(MessageCode.DEFAULT_SUCCESS_MSG);
+        } catch (BusinessException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageHelper.getMessage(MessageCode.CANT_CONSUME_PRODUCT));
         }
     }
 }
