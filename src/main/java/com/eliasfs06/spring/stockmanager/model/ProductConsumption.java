@@ -19,6 +19,11 @@ public class ProductConsumption extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public ProductConsumption(Product product, Integer quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
+
     @Override
     public Long getId() {
         return id;

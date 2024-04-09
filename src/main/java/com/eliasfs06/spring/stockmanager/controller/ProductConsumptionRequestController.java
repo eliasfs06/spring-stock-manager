@@ -2,15 +2,16 @@ package com.eliasfs06.spring.stockmanager.controller;
 
 import com.eliasfs06.spring.stockmanager.model.Product;
 import com.eliasfs06.spring.stockmanager.model.ProductConsumptionRequest;
+import com.eliasfs06.spring.stockmanager.model.exceptionsHandler.BusinessException;
 import com.eliasfs06.spring.stockmanager.service.ProductConsumptionRequestService;
+import com.eliasfs06.spring.stockmanager.service.helper.MessageCode;
+import com.eliasfs06.spring.stockmanager.service.helper.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,9 @@ public class ProductConsumptionRequestController extends GenericController<Produ
 
     @Autowired
     private ProductConsumptionRequestService service;
+
+    @Autowired
+    private MessageHelper messageHelper;
 
     private final String LIST_PATH = "/product-consumption-request/list";
     private final int DEFAULT_PAGE_SIZE = 5;
@@ -49,5 +53,24 @@ public class ProductConsumptionRequestController extends GenericController<Produ
         }
 
         return LIST_PATH;
+    }
+
+    @GetMapping("/accept/{id}")
+    public String accept(Model model, @PathVariable Long id){
+        try {
+            service.acceptRequest(id);
+            model.addAttribute("successMessage", messageHelper.getMessage(MessageCode.DEFAULT_SUCCESS_MSG));
+        } catch (BusinessException e) {
+            model.addAttribute("errorMessage", messageHelper.getMessage(MessageCode.CANT_CONSUME_PRODUCT));
+        }
+        return findAll(model, Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE));
+    }
+
+    @GetMapping("/reject/{id}")
+    public String reject(Model model, @PathVariable Long id){
+        service.rejectRequest(id);
+        model.addAttribute("successMessage", messageHelper.getMessage(MessageCode.DEFAULT_SUCCESS_MSG));
+
+        return findAll(model, Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE));
     }
 }

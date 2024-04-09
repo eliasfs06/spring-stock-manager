@@ -17,6 +17,8 @@ public class ProductConsumptionService extends GenericService<ProductConsumption
         verifyTotalToConsume(product, quantity);
         product.setStockQuantity(product.getStockQuantity() - quantity);
         productService.save(product);
+        ProductConsumption productConsumption = new ProductConsumption(product, quantity);
+        this.save(productConsumption);
     }
 
     public void verifyTotalToConsume(Product product, Integer quantity) throws BusinessException {

@@ -26,6 +26,7 @@
             <th scope="col">Product</th>
             <th scope="col">Quantity</th>
             <th scope="col">Description</th>
+            <th scope="col">Status</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -38,8 +39,13 @@
             </td>
             <td th:text="${request.quantity}"></td>
             <td th:text="${request.description}"></td>
+            <td th:text="${request.requestStatus}"></td>
             <td class="row">
                 <div class="col-3">
+                    <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:if="${request.requestStatus.name() == 'WAITING'}"
+                       th:href="@{'/product-consumption-request/accept/' + ${request.id}}">Acept</a>
+                    <a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:if="${request.requestStatus.name() == 'WAITING'}"
+                       th:href="@{'/product-consumption-request/reject/' + ${request.id}}">Reject</a>
                 </div>
             </td>
         </tr>

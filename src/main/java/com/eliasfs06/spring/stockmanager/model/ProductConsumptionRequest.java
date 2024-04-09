@@ -1,5 +1,6 @@
 package com.eliasfs06.spring.stockmanager.model;
 
+import com.eliasfs06.spring.stockmanager.model.enums.RequestStatus;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,6 +23,9 @@ public class ProductConsumptionRequest extends BaseEntity {
     @DateTimeFormat(pattern = "MM-DD-YYYY")
     private Date requestDate;
 
+    @Enumerated(EnumType.STRING)
+    private RequestStatus requestStatus;
+
     public ProductConsumptionRequest() {
     }
 
@@ -30,6 +34,7 @@ public class ProductConsumptionRequest extends BaseEntity {
         this.quantity = quantity;
         this.description = description;
         this.requestDate = new Date();
+        this.requestStatus = RequestStatus.WAITING;
     }
 
     @Override
@@ -72,5 +77,13 @@ public class ProductConsumptionRequest extends BaseEntity {
 
     public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
+    }
+
+    public RequestStatus getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(RequestStatus requestStatus) {
+        this.requestStatus = requestStatus;
     }
 }

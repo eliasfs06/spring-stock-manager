@@ -3,6 +3,7 @@ package com.eliasfs06.spring.stockmanager.service;
 import com.eliasfs06.spring.stockmanager.model.Product;
 import com.eliasfs06.spring.stockmanager.model.ProductConsumption;
 import com.eliasfs06.spring.stockmanager.model.ProductConsumptionRequest;
+import com.eliasfs06.spring.stockmanager.model.enums.RequestStatus;
 import com.eliasfs06.spring.stockmanager.model.exceptionsHandler.BusinessException;
 import com.eliasfs06.spring.stockmanager.repository.ProductConsumptionRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,19 @@ public class ProductConsumptionRequestService extends GenericService<ProductCons
         }
 
         return new PageImpl<ProductConsumptionRequest>(list, PageRequest.of(currentPage, pageSize), requests.size());
+    }
+
+    public void acceptRequest(Long id) throws BusinessException {
+        ProductConsumptionRequest request = get(id);
+        productConsumptionService.cosumeProduct(request.getProduct(), request.getQuantity());
+        request.setRequestStatus(RequestStatus.ACCEPT);
+        repository.save(request);
+
+    }
+
+    public void rejectRequest(Long id) {
+        ProductConsumptionRequest request = get(id);
+        request.setRequestStatus(RequestStatus.REJECT);
+        repository.save(request);
     }
 }
