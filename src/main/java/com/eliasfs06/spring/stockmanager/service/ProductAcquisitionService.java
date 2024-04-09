@@ -4,7 +4,9 @@ import com.eliasfs06.spring.stockmanager.model.Product;
 import com.eliasfs06.spring.stockmanager.model.ProductAcquisition;
 import com.eliasfs06.spring.stockmanager.model.ProductAcquisitionItem;
 import com.eliasfs06.spring.stockmanager.model.dto.ProductAcquisitionItemDTO;
+import com.eliasfs06.spring.stockmanager.model.exceptionsHandler.BusinessException;
 import com.eliasfs06.spring.stockmanager.repository.ProductAcquisitionRepository;
+import com.eliasfs06.spring.stockmanager.service.helper.MessageCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -12,10 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProductAcquisitionService extends GenericService<ProductAcquisition>{
@@ -66,5 +65,34 @@ public class ProductAcquisitionService extends GenericService<ProductAcquisition
             productAcquisitionItemService.save(newItem);
             itens.add(newItem);
         });
+    }
+    public void deleteAcquisition(Long id) throws BusinessException {
+        ProductAcquisition productAcquisition = get(id);
+
+        verifyQuantityInStockToDelete(productAcquisition);
+
+        for(int i = 0; i < productAcquisition.getItens().size(); i ++){
+            ProductAcquisitionItem item = productAcquisition.getItens().get(i);
+            productAcquisitionItemService.deleteItem(item.getId());
+        }
+        repository.deleteById(id);
+    }
+
+    private void verifyQuantityInStockToDelete(ProductAcquisition productAcquisition) throws BusinessException {
+        Map<Product, Integer> totalPerProduct = new HashMap<>();
+
+        for(int i = 0; i < productAcquisition.getItens().size(); i ++){
+            ProductAcquisitionItem item = productAcquisition.getItens().get(i);
+            int total = totalPerProduct.getOrDefault(item.getProduct(), 0);
+            totalPerProduct.put(item.getProduct(), total + item.getQuantity());
+        }
+
+        for (Map.Entry<Product, Integer> entry : totalPerProduct.entrySet()) {
+            Integer totalInStock = productService.get(entry.getKey().getId()).getStockQuantity();
+            if(totalInStock == null || totalInStock < entry.getValue()){
+                throw new BusinessException(MessageCode.CANT_DELETE_ACQUISITION);
+            }
+        }
+
     }
 }

@@ -9,6 +9,10 @@
 <body>
 <div th:replace="~{fragments/sidebar.html}"></div>
 <div class="container mt-3">
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <h4>Product Acquistion Form</h4>
     <div class="row">
         <input hidden th:field="*{productAcquisition.id}">

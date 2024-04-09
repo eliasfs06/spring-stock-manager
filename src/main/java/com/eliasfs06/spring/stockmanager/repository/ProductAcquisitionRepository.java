@@ -9,8 +9,4 @@ import java.util.List;
 
 @Repository
 public interface ProductAcquisitionRepository extends GenericRepository<ProductAcquisition>{
-
-    @Query("FROM ProductAcquisitionItem item WHERE item.productAcquisition.id = ?1 " +
-            "AND item.productAcquisition.active = true AND item.active = true")
-    public List<ProductAcquisitionItem> findByProductAcquisition(Long id);
 }

@@ -4,8 +4,11 @@ import com.eliasfs06.spring.stockmanager.model.Product;
 import com.eliasfs06.spring.stockmanager.model.ProductAcquisition;
 import com.eliasfs06.spring.stockmanager.model.ProductAcquisitionItem;
 import com.eliasfs06.spring.stockmanager.model.dto.ProductAcquisitionItemDTO;
+import com.eliasfs06.spring.stockmanager.model.exceptionsHandler.BusinessException;
 import com.eliasfs06.spring.stockmanager.service.ProductAcquisitionService;
 import com.eliasfs06.spring.stockmanager.service.ProductService;
+import com.eliasfs06.spring.stockmanager.service.helper.MessageCode;
+import com.eliasfs06.spring.stockmanager.service.helper.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +33,9 @@ public class ProductAcquisitionController extends GenericController<ProductAcqui
     @Autowired
     private ProductAcquisitionService service;
 
+    @Autowired
+    private MessageHelper messageHelper;
+
     private final String FORM_PATH = "/product-acquisition/form";
     private final String LIST_PATH = "/product-acquisition/list";
     private final int DEFAULT_PAGE_SIZE = 5;
@@ -46,7 +52,11 @@ public class ProductAcquisitionController extends GenericController<ProductAcqui
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, Model model){
-        service.delete(id);
+        try {
+            service.deleteAcquisition(id);
+        } catch (BusinessException e) {
+            model.addAttribute("errorMessage", messageHelper.getMessage(MessageCode.CANT_DELETE_ACQUISITION));
+        }
         return findAll(model, Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE));
     }
 
