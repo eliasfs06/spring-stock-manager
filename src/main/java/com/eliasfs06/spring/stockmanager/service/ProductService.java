@@ -1,7 +1,9 @@
 package com.eliasfs06.spring.stockmanager.service;
 
 import com.eliasfs06.spring.stockmanager.model.Product;
+import com.eliasfs06.spring.stockmanager.model.exceptionsHandler.BusinessException;
 import com.eliasfs06.spring.stockmanager.repository.ProductRepository;
+import com.eliasfs06.spring.stockmanager.service.helper.MessageCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -37,5 +39,12 @@ public class ProductService extends GenericService<Product> {
 
     public List<Product> findAll(){
         return repository.findAll();
+    }
+
+    public void validateProduct(Product product) throws BusinessException {
+        if(product.getName() == null || product.getName().isEmpty() ||
+                product.getType() == null ||  product.getBrand() == null){
+            throw new BusinessException(MessageCode.DEFAULT_EMPTY_FIELD_MSG);
+        }
     }
 }

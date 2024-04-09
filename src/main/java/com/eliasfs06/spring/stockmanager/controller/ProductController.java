@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -94,7 +95,18 @@ public class ProductController extends GenericController<Product> {
     }
 
     @PostMapping("/save")
-    public String save(Product product, Model model) {
+    public String save(Product product, Model model, RedirectAttributes ra) {
+        try {
+            productService.validateProduct(product);
+
+        } catch (BusinessException e) {
+            model.addAttribute("errorMessage", messageHelper.getMessage(MessageCode.DEFAULT_EMPTY_FIELD_MSG));
+            model.addAttribute("product", product);
+            model.addAttribute("types", ProductType.values());
+            model.addAttribute("brands", Brand.values());
+            return FORM_PATH;
+
+        }
         productService.save(product);
         model.addAttribute("successMessage", messageHelper.getMessage(MessageCode.DEFAULT_SUCCESS_MSG));
         return findAll(model, Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE));

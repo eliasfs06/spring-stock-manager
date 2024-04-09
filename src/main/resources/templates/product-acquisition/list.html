@@ -32,7 +32,7 @@
             <td th:text="${prod.id}"></td>
             <td th:text="${#dates.format(prod.aquisitionDate, 'dd/MM/yyyy')}"></td>
             <td>
-                <div th:each="item : ${prod.itens}" th:text="${item.quantity + ' - ' + item.product.name + ' - ' + item.product.brand + ' - ' + item.product.type}"></div>
+                <div th:each="item : ${prod.itens}" th:text="${item.quantity + ' - ' + item.product.name + ' - ' + item.product.brand.name + ' - ' + item.product.type.description}"></div>
             </td>
             <td class="row">
                 <div class="col-3">
