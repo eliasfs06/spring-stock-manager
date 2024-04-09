@@ -54,6 +54,7 @@ public class ProductAcquisitionController extends GenericController<ProductAcqui
     public String delete(@PathVariable Long id, Model model){
         try {
             service.deleteAcquisition(id);
+            model.addAttribute("successMessage", messageHelper.getMessage(MessageCode.DEFAULT_SUCCESS_MSG));
         } catch (BusinessException e) {
             model.addAttribute("errorMessage", messageHelper.getMessage(MessageCode.CANT_DELETE_ACQUISITION));
         }
@@ -86,6 +87,7 @@ public class ProductAcquisitionController extends GenericController<ProductAcqui
     @PostMapping("/save")
     public String save(Model model, ProductAcquisition productAcquisition, @RequestBody List<ProductAcquisitionItemDTO> productAcquisitionItens) {
         service.save(productAcquisition, productAcquisitionItens);
+        model.addAttribute("successMessage", messageHelper.getMessage(MessageCode.DEFAULT_SUCCESS_MSG));
         return findAll(model, Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE));
     }
 

@@ -23,6 +23,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToOne
@@ -69,8 +70,10 @@ public class User extends BaseEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN)
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else if(this.role == UserRole.MANAGER)
+            return List.of(new SimpleGrantedAuthority("ROLE_MANAGER"));
         else
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+            return List.of(new SimpleGrantedAuthority("ROLE_CONSUMER"));
     }
 
     public String getPassword() {

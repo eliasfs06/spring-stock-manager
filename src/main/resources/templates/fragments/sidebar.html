@@ -20,9 +20,9 @@
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" th:href="@{/product/list}">All products</a>
-                    <a class="dropdown-item" th:href="@{/product/form}">New product</a>
-                    <a class="dropdown-item" th:href="@{/product-acquisition/list}">All product acquistions</a>
-                    <a class="dropdown-item" th:href="@{/product-acquisition/form}">Register product acquistion</a>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:href="@{/product/form}">New product</a>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:href="@{/product-acquisition/list}">All product acquistions</a>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" th:href="@{/product-acquisition/form}">Register product acquistion</a>
                 </div>
             </li>
 

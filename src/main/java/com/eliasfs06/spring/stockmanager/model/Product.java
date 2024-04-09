@@ -12,11 +12,18 @@ public class Product extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private Brand brand;
+
     private ProductType type;
+
     private String description;
+
     private Integer stockQuantity;
+
+    private Boolean freeToConsume = true;
 
     public Product() {
     }
@@ -72,5 +79,13 @@ public class Product extends BaseEntity {
 
     public void setStockQuantity(Integer stockQuantity) {
         this.stockQuantity = stockQuantity;
+    }
+
+    public Boolean getFreeToConsume() {
+        return freeToConsume;
+    }
+
+    public void setFreeToConsume(Boolean freeToConsume) {
+        this.freeToConsume = freeToConsume;
     }
 }

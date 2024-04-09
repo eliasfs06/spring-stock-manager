@@ -36,6 +36,16 @@
                 <label for="product-description">Description</label>
                 <input th:field="*{description}" type="text" class="form-control" id="product-description">
             </div>
+            <div>
+                <label>Free to consume</label>
+                <div>
+                    <input type="radio" id="free-to-consume-true" name="free-to-consume-radio" th:field="*{freeToConsume}" value="true" checked>
+                    <label for="free-to-consume-true" style="margin-right: 10px; margin-bottom: 20px">Yes</label>
+
+                    <input type="radio" id="free-to-consume-no" name="free-to-consume-radio" th:field="*{freeToConsume}" value="false">
+                    <label for="free-to-consume-no">No</label>
+                </div>
+            </div>
             <button type="submit" class="btn btn-success">Save</button>
         </form>
     </div>

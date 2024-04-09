@@ -3,11 +3,17 @@ package com.eliasfs06.spring.stockmanager.controller;
 import com.eliasfs06.spring.stockmanager.model.Product;
 import com.eliasfs06.spring.stockmanager.model.enums.Brand;
 import com.eliasfs06.spring.stockmanager.model.enums.ProductType;
+import com.eliasfs06.spring.stockmanager.model.exceptionsHandler.BusinessException;
+import com.eliasfs06.spring.stockmanager.service.ProductConsumptionService;
 import com.eliasfs06.spring.stockmanager.service.ProductService;
+import com.eliasfs06.spring.stockmanager.service.helper.MessageCode;
+import com.eliasfs06.spring.stockmanager.service.helper.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +30,12 @@ public class ProductController extends GenericController<Product> {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ProductConsumptionService productConsumptionService;
+
+    @Autowired
+    private MessageHelper messageHelper;
 
     private final String FORM_PATH = "/product/form";
     private final String LIST_PATH = "/product/list";
@@ -79,12 +91,24 @@ public class ProductController extends GenericController<Product> {
     @PostMapping("/save")
     public String save(Product product, Model model) {
         productService.save(product);
+        model.addAttribute("successMessage", messageHelper.getMessage(MessageCode.DEFAULT_SUCCESS_MSG));
         return findAll(model, Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE));
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id, Model model){
         productService.delete(id);
+        model.addAttribute("successMessage", messageHelper.getMessage(MessageCode.DEFAULT_SUCCESS_MSG));
         return findAll(model, Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE));
+    }
+
+    @PostMapping("/consume/{id}")
+    public ResponseEntity<String> consume(Model model, @PathVariable Long id, @RequestParam Integer quantity) {
+        try {
+            productConsumptionService.cosumeProduct(productService.get(id), quantity);
+            return ResponseEntity.ok().body(MessageCode.DEFAULT_SUCCESS_MSG);
+        } catch (BusinessException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageHelper.getMessage(MessageCode.CANT_DELETE_ACQUISITION));
+        }
     }
 }

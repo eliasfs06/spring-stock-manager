@@ -1,0 +1,19 @@
+<div th:fragment="modal-product-consume">
+    <div class="modal fade" id="productConsumeModal" tabindex="-1" role="dialog" aria-labelledby="productConsumeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input hidden id="productId">
+                        <label for="consume-quantity">Quantity</label>
+                        <input type="number" class="form-control" id="consume-quantity">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="consumeProduct()" id="confirmButton">Consume</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
