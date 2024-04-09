@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar.html}"></div>
+<div class="container mt-3">
+    <h4> Products </h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+            <th scope="col">Quantity in stock</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${productList.totalPages != 0}" th:each="prod : ${productList}">
+            <td th:text="${prod.name}"></td>
+            <td th:text="${prod.brand.name}"></td>
+            <td th:text="${prod.type.description}"></td>
+            <td th:text="${prod.description}"></td>
+            <td th:text="${prod.stockQuantity}"></td>
+            <td class="row">
+                <div class="col-3"></div>
+            </td>
+        </tr>
+        <tr th:if="${productList.totalPages == 0}">
+            <td colspan="6">No products registered</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${productList.totalPages > 0}" class="d-flex pagination" style="justify-content: end;">
+        <a th:each="pageNumber : ${pageNumbers}"
+           th:href="@{/product/list(size=${productList.size}, page=${pageNumber})}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber == productList.number + 1} ? 'active' : ''"
+           th:classappend="${pageNumber == currentPage ? 'font-weight-bold' : ''}"
+           style="padding: 5px"></a>
+    </div>
+
+</div>
+
+<script th:src="@{/vendor/js/jquery-3.6.0.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+
+</body>
+</html>

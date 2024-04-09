@@ -17,6 +17,18 @@ public class ProductAcquisitionItem extends BaseEntity{
     @JoinColumn(name = "productAcquisition_id")
     private ProductAcquisition productAcquisition;
 
+    public ProductAcquisitionItem() {
+    }
+
+    public ProductAcquisitionItem(Product product, Integer quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    public ProductAcquisitionItem(ProductAcquisition productAcquisition) {
+        this.productAcquisition = productAcquisition;
+    }
+
     @Override
     public Long getId() {
         return id;

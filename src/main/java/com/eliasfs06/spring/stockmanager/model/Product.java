@@ -18,6 +18,13 @@ public class Product extends BaseEntity {
     private String description;
     private Integer stockQuantity;
 
+    public Product() {
+    }
+
+    public Product(Long id) {
+        this.id = id;
+    }
+
     @Override
     public Long getId() {
         return id;

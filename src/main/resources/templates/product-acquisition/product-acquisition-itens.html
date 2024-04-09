@@ -1,0 +1,26 @@
+<div th:fragment="acquisition-itens" id="acquisition-itens">
+    <table class="table mt-3">
+        <thead>
+        <tr>
+            <th scope="col">Product Code</th>
+            <th scope="col">Name</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Type</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="existing-item" th:each="item : ${itens}">
+            <td class="product-id" th:value="${item.product.id}" th:text="${item.product.id}"></td>
+            <td th:text="${item.product.name}"></td>
+            <td th:text="${item.product.brand.name}"></td>
+            <td th:text="${item.product.type.description}"></td>
+            <td class="quantity" th:value="${item.quantity}" th:text="${item.quantity}"></td>
+            <td class="row">
+                <div class="col-3"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

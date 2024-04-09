@@ -14,9 +14,15 @@
                 <a class="nav-link" th:href="@{/index}">Home</a>
             </li>
 
-            <!-- Manager -->
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/product/list}">Products</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    Products
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/product/list}">All products</a>
+                    <a class="dropdown-item" th:href="@{/product/form}">New product</a>
+                    <a class="dropdown-item" th:href="@{/product-acquisition/form}">Register product acquistion</a>
+                </div>
             </li>
 
             <li>
@@ -24,4 +30,11 @@
             </li>
         </ul>
     </div>
+
+    <script th:src="@{/vendor/js/jquery-3.6.0.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/sidebar.js}"></script>
+
 </nav>
+
+

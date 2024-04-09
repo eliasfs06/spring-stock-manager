@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div th:replace="fragments/sidebar.html"></div>
+    <div th:replace="~{fragments/sidebar.html}"></div>
     <div class="container mt-3">
-        <form th:object="${product}" th:action="@{/product}" method="post">
+        <h4> New Product Form</h4>
+        <form th:object="${product}" th:action="@{/product/save}" method="post">
             <div class="form-group">
                 <label for="product-name">Name</label>
                 <input th:field="*{name}" type="text" class="form-control" id="product-name">
@@ -30,8 +31,12 @@
                 <label for="product-description">Description</label>
                 <input th:field="*{description}" type="text" class="form-control" id="product-description">
             </div>
+            <button type="submit" class="btn btn-success">Save</button>
         </form>
-        <button type="submit" class="btn btn-success">Save</button>
     </div>
+
+    <script th:src="@{/vendor/js/jquery-3.6.0.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/sidebar.js}"></script>
 </body>
 </html>

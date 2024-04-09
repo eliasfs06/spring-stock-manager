@@ -27,7 +27,7 @@ public abstract class GenericController<T extends BaseEntity> {
     public String findAll(Model model, Pageable pageable){
         String name = this.getEntityName();
         Page<T> page = this.service.getPage(pageable);
-        model.addAttribute(name, page);
+        model.addAttribute(name + "List", page);
         return name + DEFAULT_LIST_PATH;
     }
 
