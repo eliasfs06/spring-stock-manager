@@ -11,6 +11,7 @@
     <div class="container mt-3">
         <h4> New Product Form</h4>
         <form th:object="${product}" th:action="@{/product/save}" method="post">
+            <input hidden th:field="*{id}">
             <div class="form-group">
                 <label for="product-name">Name</label>
                 <input th:field="*{name}" type="text" class="form-control" id="product-name">

@@ -32,10 +32,7 @@ public class ProductService extends GenericService<Product> {
             list = products.subList(startItem, toIndex);
         }
 
-        Page<Product> productPage
-                = new PageImpl<Product>(list, PageRequest.of(currentPage, pageSize), products.size());
-
-        return productPage;
+        return new PageImpl<Product>(list, PageRequest.of(currentPage, pageSize), products.size());
     }
 
     public List<Product> findAll(){

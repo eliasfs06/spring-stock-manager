@@ -1,10 +1,16 @@
-const addProduct = () => {
+function getItens() {
     let itens = [];
     $('tr.existing-item').each(function () {
         const productId = $(this).find('.product-id').text();
         const quantity = $(this).find('.quantity').text();
         itens.push({productId: productId, quantity: quantity});
     });
+
+    return itens;
+}
+
+const addProduct = () => {
+    let itens = getItens();
 
     const newProductId = $('#item-product').val();
     const newQuantity = $('#item-quantity').val();
@@ -22,7 +28,23 @@ const addProduct = () => {
         },
         error: function (xhr, status, error) {
             console.error("Error adding product:", status, error);
-            alert('Error while trying to add product');
+        }
+    });
+}
+
+const saveProductAcquisition = () => {
+    let itens = getItens();
+
+    $.ajax({
+        url: '/product-acquisition/save',
+        type: 'POST',
+        data: JSON.stringify(itens),
+        contentType: 'application/json',
+        success: function () {
+            window.location.href = '/product-acquisition/list';
+        },
+        error: function (xhr, status, error) {
+            console.error("Error saving product acquisition:", status, error);
         }
     });
 }

@@ -29,6 +29,12 @@ public class ProductAcquisitionItem extends BaseEntity{
         this.productAcquisition = productAcquisition;
     }
 
+    public ProductAcquisitionItem(Product product, Integer quantity, ProductAcquisition productAcquisition) {
+        this.product = product;
+        this.quantity = quantity;
+        this.productAcquisition = productAcquisition;
+    }
+
     @Override
     public Long getId() {
         return id;

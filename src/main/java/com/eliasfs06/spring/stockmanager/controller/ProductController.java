@@ -10,10 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -39,6 +36,17 @@ public class ProductController extends GenericController<Product> {
         ModelAndView mv = new ModelAndView(FORM_PATH);
 
         mv.addObject("product", new Product());
+        mv.addObject("types", ProductType.values());
+        mv.addObject("brands", Brand.values());
+
+        return mv;
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView getForm(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView(FORM_PATH);
+        Product product = productService.get(id);
+        mv.addObject("product", product);
         mv.addObject("types", ProductType.values());
         mv.addObject("brands", Brand.values());
 
@@ -74,4 +82,9 @@ public class ProductController extends GenericController<Product> {
         return findAll(model, Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE));
     }
 
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, Model model){
+        productService.delete(id);
+        return findAll(model, Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE));
+    }
 }
