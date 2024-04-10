@@ -57,7 +57,7 @@
 
     <div th:if="${requestList.totalPages > 0}" class="d-flex pagination" style="justify-content: end;">
         <a th:each="pageNumber : ${pageNumbers}"
-           th:href="@{/product-acquisition/list(size=${requestList.size}, page=${pageNumber})}"
+           th:href="@{/product-consumption-request/list(size=${requestList.size}, page=${pageNumber})}"
            th:text="${pageNumber}"
            th:class="${pageNumber == requestList.number + 1} ? 'active' : ''"
            th:classappend="${pageNumber == currentPage ? 'font-weight-bold' : ''}"
